@@ -21,7 +21,7 @@ public class PictureService {
 
     public CompletableFuture<String> getPictures(String word) {
         CompletableFuture<HttpResponse<String>> future = Unirest.get("https://pixabay.com/api/")
-                .queryString("key", "28591848-c3b363290c2d468f47c67fb1b")
+                .queryString("key", "<KEY>")
                 .queryString("q", word)
                 .queryString("image_type", "photo")
                 .asStringAsync();
