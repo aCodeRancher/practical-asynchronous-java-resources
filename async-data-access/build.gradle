@@ -10,5 +10,6 @@ repositories {
 }
 
 dependencies {
-           implementation("mysql:mysql-connector-java:8.0.30")
+
+           implementation 'io.lettuce:lettuce-core:6.2.0.RELEASE'
 }

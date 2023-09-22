@@ -1,31 +1,23 @@
 
-import com.mysql.cj.xdevapi.*;
 
-import java.util.concurrent.CompletableFuture;
+import io.lettuce.core.*;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.async.RedisAsyncCommands;
+
 
 public class Main {
-    public static void main(String[] args)  {
-          /*   Connection connection  =   DriverManager.getConnection(
-                      "jdbc:mysql://localhost:3307/test","root", "test");
+    public static void main(String[] args)  throws InterruptedException{
+        RedisClient redisClient = RedisClient.create("redis://localhost:6379");
+        StatefulRedisConnection<String, String> connection = redisClient.connect();
+        RedisAsyncCommands<String, String> asyncCommands = connection.async();
 
-             Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery("SELECT * FROM Person");
-
-             if (result.next()){
-                  System.out.println("test");
-             }*/
-        Session mySession = new SessionFactory().getSession("mysqlx://localhost:33060/test?user=root&password=test");
-
-        Schema myDb = mySession.getSchema("test");
-
-         Table table = myDb.getTable("Person");
-         SelectStatement statement = table.select("firstname","lastname");
-         CompletableFuture<RowResult> future = statement.executeAsync();
-         future.whenComplete((result, ex) -> {
-              System.out.println("asda");
-         });
-
-
-        mySession.close();
+        asyncCommands.set("key", "Hello, Redis!");
+        RedisFuture<String> future = asyncCommands.get("user1");
+        future.whenComplete((result,ex) -> {
+            System.out.println("The result is : "+ result);
+        });
+        Thread.sleep(10000);
+        connection.close();
+        redisClient.shutdown();
     }
 }
