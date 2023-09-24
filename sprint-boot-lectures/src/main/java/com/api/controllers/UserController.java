@@ -18,21 +18,17 @@ public class UserController {
 
     @GetMapping("/user")
     public String getUser() throws InterruptedException {
-//        AtomicReference<String> finalResult = new AtomicReference<>("");
-//
-//        CompletableFuture<String> future = userService.getUser().whenCompleteAsync((result, ex) -> {
-//            finalResult.set(result);
-//        });
-//
-//        while (finalResult.get().isEmpty()) {
-//            System.out.println("Current thread: " + Thread.currentThread().getName());
-//            Thread.sleep(1000);
-//        }
-//
-//        return finalResult.get();
+       AtomicReference<String> finalResult = new AtomicReference<>("");
 
-        userService.storeUser();
+        CompletableFuture<String> future = userService.getUser().whenCompleteAsync((result, ex) -> {
+           finalResult.set(result);
+        });
 
-        return "Dummy string";
+        while (finalResult.get().isEmpty()) {
+           System.out.println("Current thread: " + Thread.currentThread().getName());
+            Thread.sleep(1000);
+       }
+
+       return finalResult.get();
     }
 }
