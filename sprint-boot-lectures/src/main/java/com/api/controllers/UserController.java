@@ -24,15 +24,11 @@ public class UserController {
             finalResult.set(result);
         });
 
-         while (finalResult.get().isEmpty()) {
+        while (finalResult.get().isEmpty()) {
             System.out.println("Current thread: " + Thread.currentThread().getName());
             Thread.sleep(1000);
         }
 
-        //return finalResult.get();
-
-        userService.storeUser();
-
-        return "Dummy string";
+        return finalResult.get();
     }
 }
