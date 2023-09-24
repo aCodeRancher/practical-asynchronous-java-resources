@@ -13,6 +13,9 @@ public class Main {
 
         CompletableFuture<BotState> completableFuture = tradingBot.start();
 
+        for (int i=0;i<100;i++){
+            System.out.println("Is done ? --> "+ completableFuture.isDone());
+        }
         Thread.sleep(100000000);
     }
 }
